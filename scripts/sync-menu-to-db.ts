@@ -5,10 +5,10 @@ import { join } from "path";
 
 config({ path: ".env.local" });
 
-const url = process.env.DATABASE_URL;
+const url = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL;
 if (!url) {
-  console.error("DATABASE_URL is not set");
-  process.exit(1);
+  console.log("Skipping - DATABASE_URL not configured");
+  process.exit(0);
 }
 
 const sql = neon(url);
