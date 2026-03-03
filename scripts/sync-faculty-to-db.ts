@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { neon } from "@neondatabase/serverless";
+import { Pool } from "pg";
 import { readFileSync } from "fs";
 import { join } from "path";
 
@@ -11,7 +11,7 @@ if (!url) {
   process.exit(0);
 }
 
-const sql = neon(url);
+const pool = new Pool({ connectionString: url });
 
 function parseCSV(content: string): { name: string; titles: string; departments: string; email: string; phone: string; image_url: string }[] {
   const lines = content.trim().split("\n");
@@ -53,23 +53,29 @@ function parseCSV(content: string): { name: string; titles: string; departments:
 }
 
 async function sync() {
-  const csvPath = join(process.cwd(), "public", "faculty_directory_complete.csv");
-  const content = readFileSync(csvPath, "utf-8");
-  const items = parseCSV(content);
+  const client = await pool.connect();
+  try {
+    const csvPath = join(process.cwd(), "public", "faculty_directory_complete.csv");
+    const content = readFileSync(csvPath, "utf-8");
+    const items = parseCSV(content);
 
-  for (const item of items) {
-    await sql.query(
-      `INSERT INTO faculty (name, titles, departments, email, phone, image_url)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       ON CONFLICT (name, email) DO UPDATE SET
-         titles = EXCLUDED.titles,
-         departments = EXCLUDED.departments,
-         phone = EXCLUDED.phone,
-         image_url = EXCLUDED.image_url`,
-      [item.name, item.titles, item.departments, item.email, item.phone, item.image_url]
-    );
+    for (const item of items) {
+      await client.query(
+        `INSERT INTO faculty (name, titles, departments, email, phone, image_url)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         ON CONFLICT (name, email) DO UPDATE SET
+           titles = EXCLUDED.titles,
+           departments = EXCLUDED.departments,
+           phone = EXCLUDED.phone,
+           image_url = EXCLUDED.image_url`,
+        [item.name, item.titles, item.departments, item.email, item.phone, item.image_url]
+      );
+    }
+    console.log(`Synced ${items.length} faculty to database`);
+  } finally {
+    client.release();
+    await pool.end();
   }
-  console.log(`Synced ${items.length} faculty to database`);
 }
 
 sync().catch((e) => {

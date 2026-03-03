@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { neon } from "@neondatabase/serverless";
+import { Pool } from "pg";
 
 config({ path: ".env.local" });
 
@@ -9,7 +9,7 @@ if (!url) {
   process.exit(0);
 }
 
-const sql = neon(url);
+const pool = new Pool({ connectionString: url });
 
 const MIGRATIONS = [
   `CREATE TABLE IF NOT EXISTS menu (
@@ -69,10 +69,16 @@ const MIGRATIONS = [
 ];
 
 async function run() {
-  for (const m of MIGRATIONS) {
-    await sql.query(m);
+  const client = await pool.connect();
+  try {
+    for (const m of MIGRATIONS) {
+      await client.query(m);
+    }
+    console.log("Migrations complete: menu, faculty, courses, announcements, resources");
+  } finally {
+    client.release();
+    await pool.end();
   }
-  console.log("Migrations complete: menu, faculty, courses, announcements, resources");
 }
 
 run().catch((e) => {

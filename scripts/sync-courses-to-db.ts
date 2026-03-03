@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { neon } from "@neondatabase/serverless";
+import { Pool } from "pg";
 import { readFileSync } from "fs";
 import { join } from "path";
 
@@ -11,7 +11,7 @@ if (!url) {
   process.exit(0);
 }
 
-const sql = neon(url);
+const pool = new Pool({ connectionString: url });
 
 function parseCSV(content: string): Record<string, string>[] {
   const lines: string[] = [];
@@ -80,30 +80,36 @@ function parseCSV(content: string): Record<string, string>[] {
 }
 
 async function sync() {
-  const csvPath = join(process.cwd(), "public", "courses_data.csv");
-  const content = readFileSync(csvPath, "utf-8");
-  const items = parseCSV(content);
+  const client = await pool.connect();
+  try {
+    const csvPath = join(process.cwd(), "public", "courses_data.csv");
+    const content = readFileSync(csvPath, "utf-8");
+    const items = parseCSV(content);
 
-  for (const item of items) {
-    await sql.query(
-      `INSERT INTO courses (title, url, course_num, subjects, grade_levels, length, type, uccsu, prereq, enroll_criteria, fulfillment, description)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-       ON CONFLICT (url) DO UPDATE SET
-         title = EXCLUDED.title,
-         course_num = EXCLUDED.course_num,
-         subjects = EXCLUDED.subjects,
-         grade_levels = EXCLUDED.grade_levels,
-         length = EXCLUDED.length,
-         type = EXCLUDED.type,
-         uccsu = EXCLUDED.uccsu,
-         prereq = EXCLUDED.prereq,
-         enroll_criteria = EXCLUDED.enroll_criteria,
-         fulfillment = EXCLUDED.fulfillment,
-         description = EXCLUDED.description`,
-      [item.title, item.url, item.course_num, item.subjects, item.grade_levels, item.length, item.type, item.uccsu, item.prereq, item.enroll_criteria, item.fulfillment, item.description]
-    );
+    for (const item of items) {
+      await client.query(
+        `INSERT INTO courses (title, url, course_num, subjects, grade_levels, length, type, uccsu, prereq, enroll_criteria, fulfillment, description)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+         ON CONFLICT (url) DO UPDATE SET
+           title = EXCLUDED.title,
+           course_num = EXCLUDED.course_num,
+           subjects = EXCLUDED.subjects,
+           grade_levels = EXCLUDED.grade_levels,
+           length = EXCLUDED.length,
+           type = EXCLUDED.type,
+           uccsu = EXCLUDED.uccsu,
+           prereq = EXCLUDED.prereq,
+           enroll_criteria = EXCLUDED.enroll_criteria,
+           fulfillment = EXCLUDED.fulfillment,
+           description = EXCLUDED.description`,
+        [item.title, item.url, item.course_num, item.subjects, item.grade_levels, item.length, item.type, item.uccsu, item.prereq, item.enroll_criteria, item.fulfillment, item.description]
+      );
+    }
+    console.log(`Synced ${items.length} courses to database`);
+  } finally {
+    client.release();
+    await pool.end();
   }
-  console.log(`Synced ${items.length} courses to database`);
 }
 
 sync().catch((e) => {
