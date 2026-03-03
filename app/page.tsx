@@ -1,31 +1,16 @@
-import fs from "fs";
-import path from "path";
 import ScheduleIframe from "@/components/ScheduleIframe";
+import { getMenuItems } from "@/lib/menu";
 
-interface MenuItem {
-  day: string;
-  date: string;
-  menu: string;
-}
+export const dynamic = "force-dynamic";
 
-function getMenuItems(): { items: MenuItem[]; error: string | null } {
+export default async function Home() {
+  let menuItems: Awaited<ReturnType<typeof getMenuItems>> = [];
+  let menuError: string | null = null;
   try {
-    const filePath = path.join(process.cwd(), "public", "lunch_menu.json");
-    if (fs.existsSync(filePath)) {
-      const fileContents = fs.readFileSync(filePath, "utf8");
-      return { items: JSON.parse(fileContents), error: null };
-    }
-    return {
-      items: [],
-      error: "Menu data not found. Please run the scraper first.",
-    };
-  } catch {
-    return { items: [], error: "Error loading menu data." };
+    menuItems = await getMenuItems();
+  } catch (e) {
+    menuError = "Error loading menu from database. Run the scraper and sync first.";
   }
-}
-
-export default function Home() {
-  const { items: menuItems, error: menuError } = getMenuItems();
 
   return (
     <main className="page-main">
@@ -45,7 +30,7 @@ export default function Home() {
           <div className="card p-5 border-amber-200 dark:border-amber-900 bg-amber-50/50 dark:bg-amber-950/30">
             <p className="text-neutral-800 dark:text-neutral-200 text-sm leading-relaxed">{menuError}</p>
             <p className="mt-2 text-xs text-neutral-600 dark:text-neutral-400">
-              Run: <code className="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">python3 scripts/scrape_menu.py</code>
+              Run: <code className="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">python scripts/scrape_menu.py && npm run db:sync-menu</code>
             </p>
           </div>
         ) : menuItems.length === 0 ? (
@@ -54,8 +39,8 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            {menuItems.map((item, index) => (
-              <div key={index} className="card p-4">
+            {menuItems.map((item) => (
+              <div key={`${item.day}-${item.date}`} className="card p-4">
                 <div className="flex items-baseline justify-between gap-2 mb-1">
                   <span className="font-medium text-neutral-900 dark:text-neutral-100 text-sm">{item.day}</span>
                   <span className="text-xs text-neutral-500 dark:text-neutral-400 shrink-0">{item.date}</span>

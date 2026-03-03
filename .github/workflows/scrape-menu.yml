@@ -18,12 +18,28 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
-        run: |
-          pip install requests beautifulsoup4 pandas
+      - name: Install Python dependencies
+        run: pip install requests beautifulsoup4 pandas
 
       - name: Run scraper
         run: python scripts/scrape_menu.py
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Sync menu to database
+        if: secrets.DATABASE_URL != ''
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          npm run db:migrate
+          npm run db:sync-menu
 
       - name: Commit and push if changed
         run: |
