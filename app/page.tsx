@@ -1,15 +1,17 @@
 import ScheduleIframe from "@/components/ScheduleIframe";
 import { getMenuItems } from "@/lib/menu";
+import { getAnnouncements } from "@/lib/announcements";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   let menuItems: Awaited<ReturnType<typeof getMenuItems>> = [];
   let menuError: string | null = null;
+  let announcements: Awaited<ReturnType<typeof getAnnouncements>> = [];
   try {
-    menuItems = await getMenuItems();
+    [menuItems, announcements] = await Promise.all([getMenuItems(), getAnnouncements()]);
   } catch (e) {
-    menuError = "Error loading menu from database. Run the scraper and sync first.";
+    menuError = "Error loading from database. Run migrations and sync scripts first.";
   }
 
   return (
@@ -21,7 +23,20 @@ export default async function Home() {
 
       <section id="announcements" className="mb-10">
         <h2 className="section-title">Announcements</h2>
-        <div className="card p-5 min-h-[72px]"></div>
+        <div className="card p-5 min-h-[72px]">
+          {announcements.length === 0 ? (
+            <p className="text-neutral-600 dark:text-neutral-400 text-sm">No announcements yet.</p>
+          ) : (
+            <ul className="space-y-3">
+              {announcements.map((a) => (
+                <li key={a.id}>
+                  <p className="font-medium text-neutral-900 dark:text-neutral-100 text-sm">{a.title}</p>
+                  {a.content && <p className="mt-1 text-neutral-600 dark:text-neutral-400 text-sm">{a.content}</p>}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </section>
 
       <section id="menu" className="mb-10">

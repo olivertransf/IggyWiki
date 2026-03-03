@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "db:migrate": "tsx scripts/migrate-menu.ts",
-    "db:sync-menu": "tsx scripts/sync-menu-to-db.ts"
+    "db:sync-menu": "tsx scripts/sync-menu-to-db.ts",
+    "db:sync-faculty": "tsx scripts/sync-faculty-to-db.ts",
+    "db:sync-courses": "tsx scripts/sync-courses-to-db.ts",
+    "db:sync-resources": "tsx scripts/sync-resources-to-db.ts",
+    "db:seed": "npm run db:migrate && npm run db:sync-menu && npm run db:sync-faculty && npm run db:sync-courses && npm run db:sync-resources"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",

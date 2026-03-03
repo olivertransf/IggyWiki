@@ -11,21 +11,68 @@ if (!url) {
 
 const sql = neon(url);
 
-const MIGRATION = `
-CREATE TABLE IF NOT EXISTS menu (
-  id SERIAL PRIMARY KEY,
-  day TEXT NOT NULL,
-  date TEXT NOT NULL,
-  menu TEXT NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW(),
-  UNIQUE(day, date)
-);
-`;
+const MIGRATIONS = [
+  `CREATE TABLE IF NOT EXISTS menu (
+    id SERIAL PRIMARY KEY,
+    day TEXT NOT NULL,
+    date TEXT NOT NULL,
+    menu TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(day, date)
+  )`,
+  `CREATE TABLE IF NOT EXISTS faculty (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    titles TEXT,
+    departments TEXT,
+    email TEXT,
+    phone TEXT,
+    image_url TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(name, email)
+  )`,
+  `CREATE TABLE IF NOT EXISTS courses (
+    id SERIAL PRIMARY KEY,
+    title TEXT,
+    url TEXT UNIQUE,
+    course_num TEXT,
+    subjects TEXT,
+    grade_levels TEXT,
+    length TEXT,
+    type TEXT,
+    uccsu TEXT,
+    prereq TEXT,
+    enroll_criteria TEXT,
+    fulfillment TEXT,
+    description TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+  )`,
+  `CREATE TABLE IF NOT EXISTS announcements (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    content TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+  )`,
+  `CREATE TABLE IF NOT EXISTS resource_sections (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    sort_order INT DEFAULT 0
+  )`,
+  `CREATE TABLE IF NOT EXISTS resource_links (
+    id SERIAL PRIMARY KEY,
+    section_id INT NOT NULL REFERENCES resource_sections(id) ON DELETE CASCADE,
+    label TEXT NOT NULL,
+    href TEXT NOT NULL,
+    sort_order INT DEFAULT 0
+  )`,
+];
 
 async function run() {
-  await sql.query(MIGRATION);
-  console.log("Migration complete: menu table ready");
+  for (const m of MIGRATIONS) {
+    await sql.query(m);
+  }
+  console.log("Migrations complete: menu, faculty, courses, announcements, resources");
 }
 
 run().catch((e) => {

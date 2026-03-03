@@ -33,13 +33,16 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
-      - name: Sync menu to database
+      - name: Sync to database
         if: secrets.DATABASE_URL != ''
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           npm run db:migrate
           npm run db:sync-menu
+          npm run db:sync-faculty
+          npm run db:sync-courses
+          npm run db:sync-resources
 
       - name: Commit and push if changed
         run: |
