@@ -12,6 +12,8 @@
     "db:sync-faculty": "tsx scripts/sync-faculty-to-db.ts",
     "db:sync-courses": "tsx scripts/sync-courses-to-db.ts",
     "db:sync-resources": "tsx scripts/sync-resources-to-db.ts",
+    "db:seed-course-resources": "tsx scripts/seed-course-resources.ts",
+    "db:seed-faq": "tsx scripts/seed-faq.ts",
     "db:seed": "npm run db:migrate && npm run db:sync-menu && npm run db:sync-faculty && npm run db:sync-courses && npm run db:sync-resources"
   },
   "dependencies": {

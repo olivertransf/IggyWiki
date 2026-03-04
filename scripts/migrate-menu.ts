@@ -66,6 +66,26 @@ const MIGRATIONS = [
     href TEXT NOT NULL,
     sort_order INT DEFAULT 0
   )`,
+  `CREATE TABLE IF NOT EXISTS course_learning_resources (
+    id SERIAL PRIMARY KEY,
+    course_title TEXT NOT NULL,
+    label TEXT NOT NULL,
+    href TEXT NOT NULL,
+    resource_type TEXT NOT NULL DEFAULT 'other',
+    sort_order INT DEFAULT 0
+  )`,
+  `CREATE TABLE IF NOT EXISTS faq_topics (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    sort_order INT DEFAULT 0
+  )`,
+  `CREATE TABLE IF NOT EXISTS faq_items (
+    id SERIAL PRIMARY KEY,
+    topic_id INT NOT NULL REFERENCES faq_topics(id) ON DELETE CASCADE,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    sort_order INT DEFAULT 0
+  )`,
 ];
 
 async function run() {
@@ -74,7 +94,7 @@ async function run() {
     for (const m of MIGRATIONS) {
       await client.query(m);
     }
-    console.log("Migrations complete: menu, faculty, courses, announcements, resources");
+    console.log("Migrations complete: menu, faculty, courses, announcements, resources, faq");
   } finally {
     client.release();
     await pool.end();

@@ -16,14 +16,26 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+const themeScript = `
+(function() {
+  var theme = localStorage.getItem('theme');
+  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen touch-manipulation font-sans text-base antialiased">
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <Header />
         <div className="flex-1 min-h-0 flex flex-col">
           {children}

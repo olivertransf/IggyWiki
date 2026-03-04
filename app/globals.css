@@ -5,6 +5,7 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    overflow: overlay;
   }
   body {
     font-size: 16px;
@@ -42,4 +43,37 @@
   .section-title {
     @apply text-sm font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3;
   }
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(163 163 163) transparent;
+}
+.dark html {
+  scrollbar-color: rgb(163 163 163) transparent;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(163 163 163);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(115 115 115);
+  background-clip: padding-box;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgb(163 163 163);
+  background-clip: padding-box;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(212 212 212);
+  background-clip: padding-box;
 }

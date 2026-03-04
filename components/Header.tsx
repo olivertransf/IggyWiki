@@ -7,8 +7,8 @@ import ThemeToggle from "./ThemeToggle";
 const navItems = [
   { href: "/faculty", label: "Faculty" },
   { href: "/courses", label: "Courses" },
-  { href: "/clubs", label: "Clubs & Sports" },
   { href: "/resources", label: "Resources" },
+  { href: "/faq", label: "FAQ" },
 ];
 
 export default function Header() {

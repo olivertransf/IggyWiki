@@ -10,7 +10,9 @@ export default async function ResourcesPage() {
     <main className="page-main">
       <div className="mb-8">
         <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-50">Resources</h1>
-        <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">Useful links from St. Ignatius. Most require SI login.</p>
+        <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+          Useful links from St. Ignatius. Most require SI login.
+        </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
