@@ -1,27 +1,27 @@
 [
   {
     "day": "Mon",
-    "date": "3/2",
-    "menu": "Crispy Chicken & Waffle Stack"
+    "date": "3/9",
+    "menu": "Combo Pizza & Caesar Salad"
   },
   {
     "day": "Tues",
-    "date": "3/3",
-    "menu": "Kung Pao Chicken & Rice Bowl"
+    "date": "3/10",
+    "menu": "Buffalo Chicken Sandwich on Brioche"
   },
   {
     "day": "Wed",
-    "date": "3/4",
-    "menu": "Classic Cheeseburger & Fries"
+    "date": "3/11",
+    "menu": "Carnitas Tacos with Rice & Beans"
   },
   {
     "day": "Thurs",
-    "date": "3/5",
-    "menu": "Dim Sum & Fried Rice"
+    "date": "3/12",
+    "menu": "No School"
   },
   {
     "day": "Fri",
-    "date": "3/6",
-    "menu": "Mac & Cheese"
+    "date": "3/13",
+    "menu": "No School"
   }
 ]
