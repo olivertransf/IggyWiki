@@ -1,27 +1,27 @@
 [
   {
     "day": "Mon",
-    "date": "3/9",
-    "menu": "Combo Pizza & Caesar Salad"
+    "date": "3/16",
+    "menu": "Chicken Tenders with Garlic Pasta & Green Beans"
   },
   {
     "day": "Tues",
-    "date": "3/10",
-    "menu": "Buffalo Chicken Sandwich on Brioche"
+    "date": "3/17",
+    "menu": "Corned Beef Sandwich on Rye with Fries"
   },
   {
     "day": "Wed",
-    "date": "3/11",
-    "menu": "Carnitas Tacos with Rice & Beans"
+    "date": "3/18",
+    "menu": "Spicy Korean BBQ Pork Rice Bowl"
   },
   {
     "day": "Thurs",
-    "date": "3/12",
-    "menu": "No School"
+    "date": "3/19",
+    "menu": "Beef Nachos Supreme"
   },
   {
     "day": "Fri",
-    "date": "3/13",
-    "menu": "No School"
+    "date": "3/20",
+    "menu": "Triple Stacked Grilled Cheese & Caesar Salad"
   }
 ]
