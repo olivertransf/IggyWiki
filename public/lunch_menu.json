@@ -1,27 +1,32 @@
 [
   {
+    "day": "Fri",
+    "date": "3/27",
+    "menu": "Cheese Quesadilla Supreme & Mexican Ensalada"
+  },
+  {
     "day": "Mon",
-    "date": "3/16",
-    "menu": "Chicken Tenders with Garlic Pasta & Green Beans"
+    "date": "3/30",
+    "menu": "Pepperoni Pizza & Caesar Salad"
   },
   {
     "day": "Tues",
-    "date": "3/17",
-    "menu": "Corned Beef Sandwich on Rye with Fries"
+    "date": "3/31",
+    "menu": "Loaded Cheesy Bacon Fries"
   },
   {
     "day": "Wed",
-    "date": "3/18",
-    "menu": "Spicy Korean BBQ Pork Rice Bowl"
+    "date": "4/1",
+    "menu": "Cheeseburger & Fries"
   },
   {
     "day": "Thurs",
-    "date": "3/19",
-    "menu": "Beef Nachos Supreme"
+    "date": "4/2",
+    "menu": "No School"
   },
   {
     "day": "Fri",
-    "date": "3/20",
-    "menu": "Triple Stacked Grilled Cheese & Caesar Salad"
+    "date": "4/3",
+    "menu": "No School"
   }
 ]
