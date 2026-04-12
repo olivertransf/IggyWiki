@@ -1,10 +1,5 @@
 [
   {
-    "day": "Wed",
-    "date": "4/1",
-    "menu": "Cheeseburger & Fries"
-  },
-  {
     "day": "Mon",
     "date": "4/13",
     "menu": "Beef Nachos Supreme"
@@ -12,7 +7,7 @@
   {
     "day": "Tues",
     "date": "4/14",
-    "menu": "BBQ Bowl with Chicken, Brisket, Ribs, Potato Salad, Corn Bread and Cole Slaw"
+    "menu": "BBQ Bowl with Chicken, Brisket, Hotlinks,\u00a0& Corn Bread"
   },
   {
     "day": "Wed",
@@ -22,7 +17,7 @@
   {
     "day": "Thurs",
     "date": "4/16",
-    "menu": "Crispy Chicken with Waffle Stack"
+    "menu": "Crispy Chicken and\u00a0Waffle Stack"
   },
   {
     "day": "Fri",
