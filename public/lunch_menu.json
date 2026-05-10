@@ -1,27 +1,27 @@
 [
   {
     "day": "Mon",
-    "date": "5/4",
-    "menu": "Loaded Cheesy Bacon Fries"
+    "date": "5/11",
+    "menu": "Beef Nachos Supreme"
   },
   {
     "day": "Tues",
-    "date": "5/5",
-    "menu": "Buffalo Chicken Sandwich on Brioche Bun with Coleslaw"
+    "date": "5/12",
+    "menu": "BBQ Bowl with Chicken, Brisket, Hotlinks, Potato Salad, Corn Bread & Coleslaw"
   },
   {
     "day": "Wed",
-    "date": "5/6",
-    "menu": "Rigatoni with Spicy Bolognese Sauce"
+    "date": "5/13",
+    "menu": "Dim Sum with Fried Rice"
   },
   {
     "day": "Thurs",
-    "date": "5/7",
-    "menu": "Chicken and Waffle Stack"
+    "date": "5/14",
+    "menu": "Beef Birria Tacos with Ensalada"
   },
   {
     "day": "Fri",
-    "date": "5/8",
-    "menu": "Cheese Quesadilla Supreme & Mexican Ensalada"
+    "date": "5/15",
+    "menu": "Cheesy Ravioli Marinara"
   }
 ]
